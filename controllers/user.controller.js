@@ -4,7 +4,10 @@ export const getUsersForSidebar = async (req, res) => {
 	try {
 		const loggedInUserId = req.user._id;
 
-		const filteredUsers = await UserMessage.find({ role: "doctor" });
+		const filteredUsers = await UserMessage.find({ 
+  _id: { $ne: loggedInUserId },
+  role: 'doctor' 
+}).select("-password");
 
 		res.status(200).json(filteredUsers);
 	} catch (error) {
@@ -13,5 +16,4 @@ export const getUsersForSidebar = async (req, res) => {
 	}
 };
 
-{ role: "doctor" }
 //	const filteredUsers = await UserMessage.find({ _id: { $ne: loggedInUserId } }).select("-password");
